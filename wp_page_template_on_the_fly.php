@@ -37,10 +37,8 @@ class wp_pagetemplate_on_the_fly {
 		//TODO - the usual sanitize, validate, nounce etc.
 		if($_POST){
 
-			//print_r($_POST);
-			//echo "<h1>".get_stylesheet_directory()."</h1>";
-
-			$page_template_name = strlen( $_POST['page_template_name'] ) < 1 ? 'Page template ' . time() : $_POST['page_template_name'];
+			$page_template_name = filter_var( $_POST['page_template_name'], FILTER_SANITIZE_STRING);
+			$page_template_name = strlen( $page_template_name ) < 1 ? 'Page template ' . time() : $page_template_name;
 
 
 			$page_file_name = 'page_template_' . time() . '.php';
