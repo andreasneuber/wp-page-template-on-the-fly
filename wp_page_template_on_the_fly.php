@@ -38,6 +38,9 @@ class wp_pagetemplate_on_the_fly {
 	public function page_template_editor_page(){
 
 		//TODO - the usual sanitize, validate, nounce etc.
+
+		$success = false;
+
 		if($_POST){
 
 			$page_template_name = filter_var( $_POST['page_template_name'], FILTER_SANITIZE_STRING);
@@ -73,13 +76,26 @@ class wp_pagetemplate_on_the_fly {
 			// Now create a page and add page template to it
 			$page_id = $this->create_test_page();
 			$this->add_page_template_to_test_page( $page_id, $page_file_name );
+
+			$success = true;
 		}
 		?>
 
 		<div class="wrap">
+
+			<?php
+			if( $success ){
+				$url = get_permalink( $page_id );
+				?>
+				<div class="notice notice-success is-dismissible">
+					<?php echo "<p>Success! Visit <a href='{$url}'>Test Page - page template: " . $this->page_template_name . "</a></p>"; ?>
+				</div>
+				<?php
+			}
+			?>
+
 					<div id="icon-plugins" class="icon32"></div>
 					<h2>PageTemplate on-the-fly</h2>
-
 
 					<form method="post" action="tools.php?page=wp_page_template_on_the_fly">
 
@@ -139,7 +155,7 @@ class wp_pagetemplate_on_the_fly {
 	private function add_page_template_to_test_page( $page_id, $page_file_name ){
 		add_post_meta( $page_id, '_wp_page_template', $page_file_name );
 	}
-
+	
 }
 
 $flying_pagetemplate = new wp_pagetemplate_on_the_fly();
