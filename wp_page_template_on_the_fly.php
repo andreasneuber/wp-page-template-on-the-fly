@@ -66,11 +66,9 @@ class wp_pagetemplate_on_the_fly {
 			fclose($myfile);
 
 
-			// Now create a page
+			// Now create a page and add page template to it
 			$page_id = $this->create_test_page();
-
-			// Add page template to page
-			add_post_meta( $page_id, '_wp_page_template', $page_file_name );
+			$this->add_page_template_to_test_page( $page_id, $page_file_name );
 		}
 		?>
 
@@ -131,6 +129,11 @@ class wp_pagetemplate_on_the_fly {
 		$page_id = wp_insert_post( $new_test_page );
 
 		return $page_id;
+	}
+
+
+	private function add_page_template_to_test_page( $page_id, $page_file_name ){
+		add_post_meta( $page_id, '_wp_page_template', $page_file_name );
 	}
 
 }
