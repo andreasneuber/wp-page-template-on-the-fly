@@ -122,7 +122,7 @@ class wp_pagetemplate_on_the_fly {
 	private function create_test_page(){
 
 		$new_test_page = array(
-			'post_title'    => 'Test Page ' . rand(),
+			'post_title'    => 'Test Page - page template: ' . $this->page_template_name,
 			'post_content'  => 'content',
 			'post_type'     => 'page',
 			'post_status'   => 'publish',
