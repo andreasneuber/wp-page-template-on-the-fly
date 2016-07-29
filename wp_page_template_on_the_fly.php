@@ -40,6 +40,8 @@ class wp_pagetemplate_on_the_fly {
 			$page_template_name = filter_var( $_POST['page_template_name'], FILTER_SANITIZE_STRING);
 			$page_template_name = strlen( $page_template_name ) < 1 ? 'Page template ' . time() : $page_template_name;
 
+			$custom_code = trim( $_POST['custom_code'] );
+			$custom_code = stripslashes( $custom_code );
 
 			$page_file_name = 'page_template_' . time() . '.php';
 			$file_path      = get_stylesheet_directory() . "/" . $page_file_name;
@@ -51,8 +53,7 @@ class wp_pagetemplate_on_the_fly {
 			$txt = "<?php get_header(); ?>\n\n";
 			fwrite($myfile, $txt);
 
-			$txt = $_POST['custom_code'] . "\n\n";
-			$txt = stripslashes( $txt );
+			$txt = $custom_code . "\n\n";
 			fwrite($myfile, $txt);
 
 
