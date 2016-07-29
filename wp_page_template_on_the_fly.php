@@ -15,6 +15,9 @@ defined( 'ABSPATH' ) or die( 'Dont be so direct..' );
 class wp_pagetemplate_on_the_fly {
 
 
+	public $page_template_name;
+
+
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_page_template_editor_page' ) );
 	}
@@ -39,6 +42,7 @@ class wp_pagetemplate_on_the_fly {
 
 			$page_template_name = filter_var( $_POST['page_template_name'], FILTER_SANITIZE_STRING);
 			$page_template_name = strlen( $page_template_name ) < 1 ? 'Page template ' . time() : $page_template_name;
+			$this->page_template_name = $page_template_name;
 
 			$custom_code = trim( $_POST['custom_code'] );
 			$custom_code = stripslashes( $custom_code );
