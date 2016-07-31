@@ -43,6 +43,8 @@ class wp_pagetemplate_on_the_fly {
 
 		if($_POST){
 
+			$page_file_name_posted = filter_var( $_POST['page_template_name'], FILTER_SANITIZE_STRING);
+
 			$page_template_name = filter_var( $_POST['page_template_name'], FILTER_SANITIZE_STRING);
 			$page_template_name = strlen( $page_template_name ) < 1 ? 'Page template ' . time() : $page_template_name;
 			$this->page_template_name = $page_template_name;
@@ -155,7 +157,7 @@ class wp_pagetemplate_on_the_fly {
 	private function add_page_template_to_test_page( $page_id, $page_file_name ){
 		add_post_meta( $page_id, '_wp_page_template', $page_file_name );
 	}
-	
+
 }
 
 $flying_pagetemplate = new wp_pagetemplate_on_the_fly();
