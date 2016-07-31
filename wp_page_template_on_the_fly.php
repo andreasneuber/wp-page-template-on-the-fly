@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) or die( 'Dont be so direct..' );
 class wp_pagetemplate_on_the_fly {
 
 
+	public $page_template_file_name;
 	public $page_template_name;
 
 
