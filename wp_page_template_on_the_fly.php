@@ -44,7 +44,7 @@ class wp_pagetemplate_on_the_fly {
 
 		if($_POST){
 
-			$page_file_name_posted = filter_var( $_POST['page_template_name'], FILTER_SANITIZE_STRING);
+			$page_file_name_posted = filter_var( $_POST['file_name'], FILTER_SANITIZE_STRING);
 
 			$page_template_name = filter_var( $_POST['page_template_name'], FILTER_SANITIZE_STRING);
 			$page_template_name = strlen( $page_template_name ) < 1 ? 'Page template ' . time() : $page_template_name;
@@ -53,9 +53,9 @@ class wp_pagetemplate_on_the_fly {
 			$custom_code = trim( $_POST['custom_code'] );
 			$custom_code = stripslashes( $custom_code );
 
-			$page_file_name = 'page_template_' . time() . '.php';
-			$file_path      = get_stylesheet_directory() . "/" . $page_file_name;
-			$myfile         = fopen( $file_path, "w") or die("Unable to open file!");
+			$template_file_name = strlen( $page_file_name_posted ) < 1 ? $this->create_random_template_file_name() : $page_file_name_posted . '.php';
+			$file_path          = get_stylesheet_directory() . "/" . $template_file_name;
+			$myfile             = fopen( $file_path, "w") or die("Unable to open file!");
 
 			$txt = "<?php /* Template Name: " . $page_template_name ." */ ?>\n";
 			fwrite($myfile, $txt);
@@ -78,7 +78,7 @@ class wp_pagetemplate_on_the_fly {
 
 			// Now create a page and add page template to it
 			$page_id = $this->create_test_page();
-			$this->add_page_template_to_test_page( $page_id, $page_file_name );
+			$this->add_page_template_to_test_page( $page_id, $template_file_name );
 
 			$success = true;
 		}
@@ -137,6 +137,10 @@ class wp_pagetemplate_on_the_fly {
 		<?php
 	}
 
+
+	private function create_random_template_file_name(){
+		return $file_name = 'page_template_' . time() . '.php';
+	}
 
 	private function create_test_page(){
 
