@@ -38,11 +38,22 @@ class wp_pagetemplate_on_the_fly {
 
 	public function page_template_editor_page(){
 
-		//TODO - the usual sanitize, validate, nounce etc.
+		//TODO - the usual sanitize, validate, nonce etc.
 
 		$success = false;
 
 		if($_POST){
+
+			if (
+				! isset( $_POST['page_template_form_nonce'] )
+				|| ! wp_verify_nonce( $_POST['page_template_form_nonce'], 'create_page_template' )
+			) {
+
+				print 'Sorry, your nonce did not verify.';
+				exit;
+
+			}
+
 
 			$page_file_name_posted = filter_var( $_POST['file_name'], FILTER_SANITIZE_STRING);
 
@@ -111,6 +122,7 @@ class wp_pagetemplate_on_the_fly {
 
 
 						<?php
+						wp_nonce_field( 'create_page_template', 'page_template_form_nonce' );
 						submit_button();
 						?>
 					</form>
