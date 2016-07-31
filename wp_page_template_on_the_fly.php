@@ -54,25 +54,8 @@ class wp_pagetemplate_on_the_fly {
 			$custom_code = stripslashes( $custom_code );
 
 
-			$myfile = $this->create_template_file( $page_file_name_posted );
-
-			$txt = "<?php /* Template Name: " . $page_template_name ." */ ?>\n";
-			fwrite($myfile, $txt);
-
-			$txt = "<?php get_header(); ?>\n\n";
-			fwrite($myfile, $txt);
-
-			$txt = $custom_code . "\n\n";
-			fwrite($myfile, $txt);
-
-
-			$txt = "<?php get_sidebar(); ?>\n";
-			fwrite($myfile, $txt);
-
-			$txt = "<?php get_footer(); ?>\n";
-			fwrite($myfile, $txt);
-
-			fclose($myfile);
+			$template_file = $this->create_template_file( $page_file_name_posted );
+			$this->edit_template_file( $template_file, $custom_code );
 
 
 			// Now create a page and add page template to it
@@ -156,6 +139,28 @@ class wp_pagetemplate_on_the_fly {
 		$file               = fopen( $file_path, "w") or die("Unable to open file!");
 		return $file;
 	}
+
+
+	private function edit_template_file( $file, $custom_code ){
+
+		$txt = "<?php /* Template Name: " . $this->page_template_name ." */ ?>\n";
+		fwrite($file, $txt);
+
+		$txt = "<?php get_header(); ?>\n\n";
+		fwrite($file, $txt);
+
+		$txt = $custom_code . "\n\n";
+		fwrite($file, $txt);
+
+		$txt = "<?php get_sidebar(); ?>\n";
+		fwrite($file, $txt);
+
+		$txt = "<?php get_footer(); ?>\n";
+		fwrite($file, $txt);
+
+		fclose($file);
+	}
+
 
 	private function create_test_page(){
 
