@@ -53,9 +53,8 @@ class wp_pagetemplate_on_the_fly {
 			$custom_code = trim( $_POST['custom_code'] );
 			$custom_code = stripslashes( $custom_code );
 
-			$template_file_name = strlen( $page_file_name_posted ) < 1 ? $this->create_random_template_file_name() : $page_file_name_posted . '.php';
-			$file_path          = get_stylesheet_directory() . "/" . $template_file_name;
-			$myfile             = fopen( $file_path, "w") or die("Unable to open file!");
+
+			$myfile = $this->create_template_file( $page_file_name_posted );
 
 			$txt = "<?php /* Template Name: " . $page_template_name ." */ ?>\n";
 			fwrite($myfile, $txt);
@@ -78,7 +77,7 @@ class wp_pagetemplate_on_the_fly {
 
 			// Now create a page and add page template to it
 			$page_id = $this->create_test_page();
-			$this->add_page_template_to_test_page( $page_id, $template_file_name );
+			$this->add_page_template_to_test_page( $page_id, $this->page_template_file_name );
 
 			$success = true;
 		}
@@ -140,6 +139,22 @@ class wp_pagetemplate_on_the_fly {
 
 	private function create_random_template_file_name(){
 		return $file_name = 'page_template_' . time() . '.php';
+	}
+
+
+	private function create_template_file_name( $page_file_name_posted ){
+		$template_file_name = strlen( $page_file_name_posted ) < 1 ? $this->create_random_template_file_name() : $page_file_name_posted . '.php';
+		return $template_file_name;
+	}
+
+
+	private function create_template_file( $page_file_name_posted ){
+		$template_file_name             = $this->create_template_file_name( $page_file_name_posted );
+		$this->page_template_file_name  = $template_file_name;
+
+		$file_path          = get_stylesheet_directory() . "/" . $template_file_name;
+		$file               = fopen( $file_path, "w") or die("Unable to open file!");
+		return $file;
 	}
 
 	private function create_test_page(){
