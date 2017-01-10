@@ -3,3 +3,9 @@ Creating WordPress custom page templates is actually a straight forward process,
 
 ## Requirements
 You need a WordPress installation :-)
+
+## Getting started
+```
+$ git clone https://github.com/andreasneuber/wp-page-template-on-the-fly.git
+```
+Go to "Plugins", activate plugin
