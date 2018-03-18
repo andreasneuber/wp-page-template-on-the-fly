@@ -86,7 +86,13 @@ class wp_pagetemplate_on_the_fly {
 				<div class="notice notice-success is-dismissible">
 					<?php echo "<p>Success! Visit <a href='{$url}'>Test Page - page template: " . $this->page_template_name . "</a></p>"; ?>
 				</div>
-				<?php
+
+                		<?php if( PHP_OS == 'Linux' ){ ?>
+                    		<div class="notice notice-info is-dismissible">
+                    		<p>If on Linux, you might need to adjust file permissions of template file via terminal so you can edit it in IDE.</p>
+                    		<p><input type="text" readonly="readonly" size="100" value="<?php echo $this->create_terminal_chmod_cmd(); ?>" /></p>
+                    		</div>
+                		<?php }
 			}
 			?>
 
@@ -130,6 +136,11 @@ class wp_pagetemplate_on_the_fly {
 		</div>
 		<?php
 	}
+
+
+	private function create_terminal_chmod_cmd(){
+        	return 'sudo chmod 606 ' . get_template_directory() . '/' . $this->page_template_file_name;
+    	}
 
 
 	private function create_random_template_file_name(){
